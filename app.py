@@ -29,20 +29,20 @@ if page == "MIS-Status":
     col1, col2 = st.columns(2)
 
     with col1:
-        all_landscapes = set()
+        all_districts = set()
 
         for form_name, config in FORMS.items():
             df_temp = load_odk_data(config["form_id"])
-            col = config.get("landscape_col")
+            col = config.get("district")
 
             if col and col in df_temp.columns:
-                all_landscapes.update(df_temp[col].dropna().unique())
+                all_districts.update(df_temp[col].dropna().unique())
 
-        all_landscapes = sorted(all_landscapes)
+        all_districts = sorted(all_districts)
 
-        selected_landscape = st.selectbox(
-            "Select Landscape",
-            ["All"] + list(all_landscapes)
+        selected_district = st.selectbox(
+            "Select District",
+            ["All"] + list(all_districts)
         )
 
     with col2:
@@ -62,13 +62,13 @@ if page == "MIS-Status":
 
             form_name, config = forms_list[i + j]
             df = load_odk_data(config["form_id"])
-            landscape_col = config.get("landscape_col")
+            district_col = config.get("district_col")
 
             # -------- APPLY FILTERS --------
 
-            # Landscape filter
-            if selected_landscape != "All" and landscape_col in df.columns:
-                df = df[df[landscape_col] == selected_landscape]
+            # district filter
+            if selected_district != "All" and district_col in df.columns:
+                df = df[df[district_col] == selected_district]
 
             # Month filter
             date_cols = ["__system.submissionDate", "meta.submissionDate"]
@@ -94,20 +94,20 @@ if page == "MIS-Status":
 
                 st.caption(f"Total: {len(df)}")
 
-                if landscape_col and landscape_col in df.columns:
+                if district_col and district_col in df.columns:
                     grouped = (
-                        df.groupby(landscape_col)
+                        df.groupby(district_col)
                         .size()
                         .reset_index(name="Count")
                         .sort_values("Count", ascending=False)
                     )
 
-                    grouped.columns = ["Landscape", "Count"]
+                    grouped.columns = ["district", "Count"]
 
                     st.dataframe(grouped, use_container_width=True, height=200)
 
                 else:
-                    st.warning(f"{landscape_col} not found")
+                    st.warning(f"{district_col} not found")
 
 elif page in FORMS:
     st.title(f"📥 {page} Report")
