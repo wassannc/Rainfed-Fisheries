@@ -23,20 +23,5 @@ FORMS = {
         "form_id": "5. Harvesting",
         "columns": ["pd.date","pd.district","pd.block","pd.panchayat","pd.village","pd.fish_farmer","harvest.harvest_date","harvest.fish_avg_weight_kgs","harvest.fish_feed_expenses_rs","harvest.fish_sold_kgs","harvest.fish_solf_rate_per_kg","harvest.fish_sold_income","harvest.fish_own_consumption","harvest.fish_distributed_relatives"],
         "district_col": "pd.district"
-    },
-    "Intensification of Orchards": {
-        "form_id": "Orchards_Intensification",
-        "columns": ["SubmissionDate","basic_info.landscape","basic_info.gp","basic_info.village","basic_info.orchard_type","basic_info.farmer_add","type"],
-        "landscape_col": "basic_info.landscape"
-    },
-    "Agri Service Centers": {
-        "form_id": "Agri Service Centers",
-        "columns": ["SubmissionDate","pd.landscape","pd.gp","pd.village","farm_equipmnt_hired","ASC_Entp","ud.chc_equipmnt_rented_date","ud.chc_equipmnt_hired_farmer","ud.chc_equipmnt_total_hours_used","ud.total_hired_cost"],
-        "landscape_col": "pd.landscape"
-    },
-    "Large & Small Ruminants": {
-        "form_id": "Large_Small_Ruminants",
-        "columns": ["table_list_df.Month","table_list_df.Monthly_MIS","table_list_df.landscape","table_list_df.gp","table_list_df.village","table_list_df.livestock_type","table_list_df.Farmer"],
-        "landscape_col": "table_list_df.landscape"
-    } 
+    }
 }
