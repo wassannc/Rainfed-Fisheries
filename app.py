@@ -14,7 +14,7 @@ if page == "MIS-Status":
     import pandas as pd
     import calendar
 
-    st.title("📊 MIS Tracking - Rainfed Fisheries")
+    st.title("📊 Rainfed Fisheries")
 
     # ---------------- FILTERS ----------------
     col1, col2 = st.columns(2)
