@@ -16,7 +16,7 @@ FORMS = {
     },
     "4. Trailnet": {
         "form_id": "4. Trailnet",
-        "columns": ["pd.date","pd.district","pd.block","pd.panchayat","pd.village","pd-fish_farmer","trailnet-trailnet_date","trailnet-species_trailnet","trailnet-Catla_length_mm","trailnet-Ragandi_length_mm","trailnet-Mosu_length_mm","trailnet-Bangaru_papa_length_mm","trailnet-Grasscarp_length_mm","trailnet-Others_name","trailnet-Others_length_mm","trailnet-Catla_weight_grams","trailnet-Ragandi_weight_grams","trailnet-Mosu_weight_grams","trailnet-Bangaru_papa_weight_grams","trailnet-Grasscarp_weight_grams"],
+        "columns": ["pd.date","pd.district","pd.block","pd.panchayat","pd.village","pd.fish_farmer","trailnet.trailnet_date","trailnet.species_trailnet","trailnet.Catla_length_mm","trailnet.Ragandi_length_mm","trailnet.Mosu_length_mm","trailnet.Bangaru_papa_length_mm","trailnet.Grasscarp_length_mm","trailnet.Others_name","trailnet.Others_length_mm","trailnet.Catla_weight_grams","trailnet.Ragandi_weight_grams","trailnet.Mosu_weight_grams","trailnet.Bangaru_papa_weight_grams","trailnet.Grasscarp_weight_grams"],
         "district_col": "pd.district"
     },
     "Meetings&Trainings": {
