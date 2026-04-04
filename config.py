@@ -9,10 +9,10 @@ FORMS = {
         "columns": ["pd.date","pd.district","pd.block","pd.panchayat","pd.village","mortality.fish_farmer","mortality.species_dead","mortality.Catla_qty","mortality.Ragandi_qty","mortality.Mosu_qty","mortality.Bangaru_papa_qty","mortality.Grasscarp_qty","data_submitted_by"],
         "district_col": "pd.district"
     },
-    "BRC": {
-        "form_id": "BRC_Units",
-        "columns": ["SubmissionDate","table_list_pd.landscape","table_list_pd.brc_unit","table_list_pd.product_name","table_list_pd.brc_sale_date","table_list_pd.dj_sale_farmer","table_list_pd.gender","table_list_pd.sale_village","table_list_sd.sale_qty","table_list_sd.total_income","table_list_cd.crops","table_list_cd.crop_ext"],
-        "landscape_col": "table_list_pd.landscape"
+    "3. Feeding": {
+        "form_id": "3. Feeding",
+        "columns": ["pd.date","pd.district","pd.block","pd.panchayat","pd.village","pd.fish_farmer","feeding.date_feeding","feeding.feed_applied","feeding.feed_source","feeding.cow_manure","feeding.poultry_manure","feeding.fishies_goat_sheep_manure","feeding.vegetables_kgs","feeding.rice_bran_kgs","feeding.oil_cake_kgs","feeding.jeevamrutham_litrs","feeding.feed_others"],
+        "district_col": "pd.district"
     },
     "Micro Enterprizes": {
         "form_id": "Micro Enterprizes",
