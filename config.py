@@ -4,10 +4,10 @@ FORMS = {
         "columns": ["pd.date","pd.district","pd.block","pd.panchayat","pd.village","fingerlings.fish_farmer","fingerlings.mobile","fingerlings-ext_pond","fingerlings-No_fingerlings_released","fingerlings-date_fingerlings_released"],
         "district_col": "pd.district"
     },
-    "Activities": {
-        "form_id": "Activities-NF",
-        "columns": ["Primary_details.date","Primary_details.landscape","Primary_details.gp","Primary_details.village","Primary_details.farmer_name","Primary_details.plot_ext","crop_activity","Nf_activites.nf_inputs","Nf_activites.Other_nf_input","Nf_activites.Qty_other_nfinput"],
-        "landscape_col": "Primary_details.landscape"
+    "2. Mortality Check": {
+        "form_id": "2. Mortality Check",
+        "columns": ["pd.date","pd.district","pd.block","pd.panchayat","pd.village","mortality.fish_farmer","mortality.species_dead","mortality.Catla_qty","mortality.Ragandi_qty","mortality.Mosu_qty","mortality.Bangaru_papa_qty","mortality.Grasscarp_qty","data_submitted_by"],
+        "district_col": "pd.district"
     },
     "BRC": {
         "form_id": "BRC_Units",
