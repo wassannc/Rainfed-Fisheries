@@ -14,10 +14,10 @@ FORMS = {
         "columns": ["pd.date","pd.district","pd.block","pd.panchayat","pd.village","pd.fish_farmer","feeding.date_feeding","feeding.feed_applied","feeding.feed_source","feeding.cow_manure","feeding.poultry_manure","feeding.fishies_goat_sheep_manure","feeding.vegetables_kgs","feeding.rice_bran_kgs","feeding.oil_cake_kgs","feeding.jeevamrutham_litrs","feeding.feed_others"],
         "district_col": "pd.district"
     },
-    "Micro Enterprizes": {
-        "form_id": "Micro Enterprizes",
-        "columns": ["SubmissionDate","table_list_pd.landscape","table_list_pd.gp","table_list_pd.village","table_list_pd1.farmer_name","table_list_pd1.processing_hub_tool","table_list_pd1.processing_date","table_list_pd1.processed_for","table_list_pd2.processing_farmer_village","table_list_pd2.processing_farmer","table_list_pd2.processing_qty_kgs","table_list_pd2.rent_amount","table_list_pd3.Data_sub_by"],
-        "landscape_col": "table_list_pd.landscape"
+    "4. Trailnet": {
+        "form_id": "4. Trailnet",
+        "columns": ["pd.date","pd.district","pd.block","pd.panchayat","pd.village","pd-fish_farmer","trailnet-trailnet_date","trailnet-species_trailnet","trailnet-Catla_length_mm","trailnet-Ragandi_length_mm","trailnet-Mosu_length_mm","trailnet-Bangaru_papa_length_mm","trailnet-Grasscarp_length_mm","trailnet-Others_name","trailnet-Others_length_mm","trailnet-Catla_weight_grams","trailnet-Ragandi_weight_grams","trailnet-Mosu_weight_grams","trailnet-Bangaru_papa_weight_grams","trailnet-Grasscarp_weight_grams"],
+        "district_col": "pd.district"
     },
     "Meetings&Trainings": {
         "form_id": "Capacity_building",
