@@ -19,10 +19,10 @@ FORMS = {
         "columns": ["pd.date","pd.district","pd.block","pd.panchayat","pd.village","pd.fish_farmer","trailnet.trailnet_date","trailnet.species_trailnet","trailnet.Catla_length_mm","trailnet.Ragandi_length_mm","trailnet.Mosu_length_mm","trailnet.Bangaru_papa_length_mm","trailnet.Grasscarp_length_mm","trailnet.Others_name","trailnet.Others_length_mm","trailnet.Catla_weight_grams","trailnet.Ragandi_weight_grams","trailnet.Mosu_weight_grams","trailnet.Bangaru_papa_weight_grams","trailnet.Grasscarp_weight_grams"],
         "district_col": "pd.district"
     },
-    "Meetings&Trainings": {
-        "form_id": "Capacity_building",
-        "columns": ["CB_info.landscape","CB_info.gp","CB_info.village","CB_info.Trainining_type","CB_info.Event_name","CB_info.Event_mode","Cb_info1.from_date","Cb_info1.days","Cb_info1.male","Cb_info1.female","Cb_info1.total_members","Cb_info1.Event_place"],
-        "landscape_col": "CB_info.landscape"
+    "5. Harvesting": {
+        "form_id": "5. Harvesting",
+        "columns": ["pd.date","pd.district","pd.block","pd.panchayat","pd.village","pd.fish_farmer","harvest.harvest_date","harvest.fish_avg_weight_kgs","harvest.fish_feed_expenses_rs","harvest.fish_sold_kgs","harvest.fish_solf_rate_per_kg","harvest.fish_sold_income","harvest.fish_own_consumption","harvest.fish_distributed_relatives"],
+        "district_col": "pd.district"
     },
     "Intensification of Orchards": {
         "form_id": "Orchards_Intensification",
