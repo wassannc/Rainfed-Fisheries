@@ -1,29 +1,20 @@
 import streamlit as st
 from config import FORMS
 from utils import load_odk_data
+
 st.set_page_config(page_title="Rainfed Fisheries", layout="wide")
-st.title("📊 MIS Tracking-Fisheries")
 
 st.sidebar.title("Menu")
 
-main_section = st.sidebar.radio(
-    "Select Section",
-    ["MIS-Status", "MIS-Reports"]
-)
+menu_items = ["MIS-Status"] + list(FORMS.keys())
+page = st.sidebar.radio("Go to", menu_items)
 
-if main_section == "MIS-Reports":
-    page = st.sidebar.radio(
-        "Select Form",
-        list(FORMS.keys())
-    )
-else:
-    page = "MIS-Status"
-
+# ---------------- MIS STATUS ----------------
 if page == "MIS-Status":
     import pandas as pd
     import calendar
 
-    st.title(" MIS Status")
+    st.title("📊 MIS Tracking - Rainfed Fisheries")
 
     # ---------------- FILTERS ----------------
     col1, col2 = st.columns(2)
@@ -33,7 +24,7 @@ if page == "MIS-Status":
 
         for form_name, config in FORMS.items():
             df_temp = load_odk_data(config["form_id"])
-            col = config.get("district")
+            col = config.get("district_col")   # 🔥 changed
 
             if col and col in df_temp.columns:
                 all_districts.update(df_temp[col].dropna().unique())
@@ -62,11 +53,12 @@ if page == "MIS-Status":
 
             form_name, config = forms_list[i + j]
             df = load_odk_data(config["form_id"])
-            district_col = config.get("district_col")
+
+            district_col = config.get("district_col")  # 🔥 changed
 
             # -------- APPLY FILTERS --------
 
-            # district filter
+            # District filter
             if selected_district != "All" and district_col in df.columns:
                 df = df[df[district_col] == selected_district]
 
@@ -102,13 +94,15 @@ if page == "MIS-Status":
                         .sort_values("Count", ascending=False)
                     )
 
-                    grouped.columns = ["district", "Count"]
+                    grouped.columns = ["District", "Count"]
 
                     st.dataframe(grouped, use_container_width=True, height=200)
 
                 else:
                     st.warning(f"{district_col} not found")
 
+
+# ---------------- REPORTS ----------------
 elif page in FORMS:
     st.title(f"📥 {page} Report")
 
@@ -118,18 +112,20 @@ elif page in FORMS:
     if df.empty:
         st.warning("No data found")
     else:
-        # Select only required columns
         columns = config.get("columns", [])
         available_cols = [col for col in columns if col in df.columns]
 
-        df_filtered = df[available_cols]
+        if not available_cols:
+            st.error("No matching columns found")
+            st.write("Available columns:", df.columns)
+        else:
+            df_filtered = df[available_cols]
 
-        st.dataframe(df_filtered, use_container_width=True)
+            st.dataframe(df_filtered, use_container_width=True)
 
-        # Download button
-        st.download_button(
-            label="⬇ Download CSV",
-            data=df_filtered.to_csv(index=False),
-            file_name=f"{page}_report.csv",
-            mime="text/csv"
-        )
+            st.download_button(
+                "⬇ Download CSV",
+                df_filtered.to_csv(index=False),
+                f"{page}_report.csv",
+                "text/csv"
+            )
