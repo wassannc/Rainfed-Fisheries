@@ -1,7 +1,7 @@
 FORMS = {
-    "Farmer Register": {
-        "form_id": "FarmerRegister_NF",
-        "columns": ["plot_reg.date","plot_reg.landscape","plot_reg.gp","plot_reg.village","plot_reg.farmer_name","plot_reg.spouse","plot_reg.season","plot_reg.crop_model","plot_reg.main_crop","plot_reg.sowing_date"],
+    "1. Fingerlings Release": {
+        "form_id": "1. Fingerlings Release",
+        "columns": ["pd.date","pd.district","pd.block","pd.panchayat","pd.village","fingerlings.fish_farmer","fingerlings.mobile","fingerlings-ext_pond","fingerlings-No_fingerlings_released","fingerlings-date_fingerlings_released"],
         "district_col": "pd.district"
     },
     "Activities": {
