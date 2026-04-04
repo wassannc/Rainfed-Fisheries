@@ -1,8 +1,8 @@
 import streamlit as st
 from config import FORMS
 from utils import load_odk_data
-st.set_page_config(page_title="MIS Tracking-SABAL", layout="wide")
-st.title("📊 MIS Tracking - SABAL")
+st.set_page_config(page_title="Rainfed Fisheries", layout="wide")
+st.title("📊 MIS Tracking-Fisheries")
 
 st.sidebar.title("Menu")
 
