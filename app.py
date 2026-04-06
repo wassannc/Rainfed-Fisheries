@@ -144,10 +144,10 @@ elif main_section == "Dashboard":
 
     # Load your forms (example names – update as per your config)
     df_release = load_odk_data(FORMS["1. Fingerlings Release"]["form_id"])
-    df_feed = load_odk_data(FORMS["2. Mortality Check"]["form_id"])
-    df_harvest = load_odk_data(FORMS["3. Feeding"]["form_id"])
-    df_training = load_odk_data(FORMS["4. Trailnet"]["form_id"])
-    df_mortality = load_odk_data(FORMS["5. Harvesting"]["form_id"])
+    df_mort = load_odk_data(FORMS["2. Mortality Check"]["form_id"])
+    df_feed = load_odk_data(FORMS["3. Feeding"]["form_id"])
+    df_trail = load_odk_data(FORMS["4. Trailnet"]["form_id"])
+    df_harvest = load_odk_data(FORMS["5. Harvesting"]["form_id"])
 
     # ---------------- COVERAGE ----------------
     st.subheader("📍 Coverage")
@@ -165,8 +165,8 @@ elif main_section == "Dashboard":
             st.dataframe(grouped, use_container_width=True)
 
     with col2:
-        total_mortality = df_mortality.shape[0] if not df_mortality.empty else 0
-        total_training = df_training.shape[0] if not df_training.empty else 0
+        total_mortality = df_mort.shape[0] if not df_mort.empty else 0
+        total_training = df_trail.shape[0] if not df_trail.empty else 0
 
         st.metric("🐟 Mortality Checked", total_mortality)
         st.metric("🎓 Trainings Done", total_training)
