@@ -137,3 +137,60 @@ elif page in FORMS:
                 f"{page}_report.csv",
                 "text/csv"
             )
+elif main_section == "Dashboard":
+    import pandas as pd
+
+    st.title("🐟 Dashboard")
+
+    # Load your forms (example names – update as per your config)
+    df_release = load_odk_data(FORMS["Fingerlings Release"]["form_id"])
+    df_feed = load_odk_data(FORMS["Feed Tracking"]["form_id"])
+    df_harvest = load_odk_data(FORMS["Harvesting"]["form_id"])
+    df_training = load_odk_data(FORMS["Trainings"]["form_id"])
+    df_mortality = load_odk_data(FORMS["Mortality"]["form_id"])
+
+    # ---------------- COVERAGE ----------------
+    st.subheader("📍 Coverage")
+
+    col1, col2 = st.columns([2, 1])
+
+    with col1:
+        if not df_release.empty:
+            grouped = df_release.groupby(["district", "block"]).agg({
+                "fingerlings_released": "sum",
+                "extent_acres": "sum"
+            }).reset_index()
+
+            grouped.columns = ["District", "Block", "Fingerlings Released", "Extent (Acres)"]
+            st.dataframe(grouped, use_container_width=True)
+
+    with col2:
+        total_mortality = df_mortality.shape[0] if not df_mortality.empty else 0
+        total_training = df_training.shape[0] if not df_training.empty else 0
+
+        st.metric("🐟 Mortality Checked", total_mortality)
+        st.metric("🎓 Trainings Done", total_training)
+
+    # ---------------- FEED TRACKING ----------------
+    st.subheader("🌾 Feed Tracking")
+
+    if not df_feed.empty:
+        feed_group = df_feed.groupby(["district", "block"]).agg({
+            "fingerlings_released": "sum",
+            "feed_available": "sum"
+        }).reset_index()
+
+        feed_group.columns = ["District", "Block", "Fingerlings Released", "Feed Available"]
+        st.dataframe(feed_group, use_container_width=True)
+
+    # ---------------- HARVESTING ----------------
+    st.subheader("🎣 Harvesting")
+
+    if not df_harvest.empty:
+        harvest_group = df_harvest.groupby(["district", "block"]).agg({
+            "fingerlings_released": "sum",
+            "harvested": "sum"
+        }).reset_index()
+
+        harvest_group.columns = ["District", "Block", "Fingerlings Released", "Harvested"]
+        st.dataframe(harvest_group, use_container_width=True)
