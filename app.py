@@ -188,7 +188,7 @@ elif main_section == "Dashboard":
         st.metric("🐟 Mortality Checked", total_mortality)
         st.metric("🎓 Trailnet Done", total_trailnet)
 
-   if not df_feed.empty:
+       if not df_feed.empty:
 
         grouped = df_feed.groupby(["pd.district", "pd.block"]).agg({
             "pd.fish_farmer": "count",   # total records
