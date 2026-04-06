@@ -155,7 +155,7 @@ elif main_section == "Dashboard":
     col1, col2 = st.columns([2, 1])
 
     with col1:
-    if not df_release.empty:
+        if not df_release.empty:
 
         # 🔥 Convert to numeric (IMPORTANT)
         df_release["fingerlings.ext_pond"] = pd.to_numeric(
