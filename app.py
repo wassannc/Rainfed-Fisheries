@@ -6,9 +6,17 @@ st.set_page_config(page_title="Rainfed Fisheries", layout="wide")
 
 st.sidebar.title("Menu")
 
-menu_items = ["MIS-Status"] + list(FORMS.keys())
-page = st.sidebar.radio("Go to", menu_items)
+main_section = st.sidebar.radio(
+    "Select Section",
+    ["MIS-Status", "MIS-Reports", "Fisheries Dashboard"]
+)
 
+# 👇 Form selection only when Reports selected
+if main_section == "MIS-Reports":
+    page = st.sidebar.radio("Select Form", list(FORMS.keys()))
+else:
+    page = main_section
+    
 # ---------------- MIS STATUS ----------------
 if page == "MIS-Status":
     import pandas as pd
