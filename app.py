@@ -183,7 +183,7 @@ elif main_section == "Dashboard":
 
     with col2:
         total_mortality = df_mort.shape[0] if not df_mort.empty else 0
-        total_training = df_trail.shape[0] if not df_trail.empty else 0
+        total_trailnet = df_trail.shape[0] if not df_trail.empty else 0
 
         st.metric("🐟 Mortality Checked", total_mortality)
         st.metric("🎓 Trailnet Done", total_trailnet)
