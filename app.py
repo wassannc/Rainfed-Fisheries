@@ -188,17 +188,21 @@ elif main_section == "Dashboard":
         st.metric("🐟 Mortality Checked", total_mortality)
         st.metric("🎓 Trailnet Done", total_trailnet)
 
-    # ---------------- FEED TRACKING ----------------
-    st.subheader("🌾 Feed Tracking")
+   if not df_feed.empty:
 
-    if not df_feed.empty:
-        feed_group = df_feed.groupby(["pd.district", "pd.block"]).agg({
-            "fingerlings.fish_farmer": "count",
-            "pd.fish_farmer": "nunique"
+        grouped = df_feed.groupby(["pd.district", "pd.block"]).agg({
+            "pd.fish_farmer": "count",   # total records
+            "pd.fish_farmer": "nunique"  # unique farmers
         }).reset_index()
 
-        feed_group.columns = ["District", "Block", "Fingerlings Released", "Feed data available"]
-        st.dataframe(feed_group, use_container_width=True)
+        grouped.columns = [
+            "District",
+            "Block",
+            "Total Feed Records",
+            "Farmers Covered"
+        ]
+
+        st.dataframe(grouped, use_container_width=True)
 
     # ---------------- HARVESTING ----------------
     st.subheader("🎣 Harvesting")
