@@ -190,19 +190,19 @@ elif main_section == "Dashboard":
 
        if not df_feed.empty:
 
-        grouped = df_feed.groupby(["pd.district", "pd.block"]).agg({
-            "pd.fish_farmer": "count",   # total records
-            "pd.fish_farmer": "nunique"  # unique farmers
-        }).reset_index()
+            grouped = df_feed.groupby(["pd.district", "pd.block"]).agg({
+                "pd.fish_farmer": "count",   # total records
+                "pd.fish_farmer": "nunique"  # unique farmers
+            }).reset_index()
 
-        grouped.columns = [
-            "District",
-            "Block",
-            "Total Feed Records",
-            "Farmers Covered"
-        ]
+            grouped.columns = [
+                "District",
+                "Block",
+                "Total Feed Records",
+                "Farmers Covered"
+            ]
 
-        st.dataframe(grouped, use_container_width=True)
+            st.dataframe(grouped, use_container_width=True)
 
     # ---------------- HARVESTING ----------------
     st.subheader("🎣 Harvesting")
