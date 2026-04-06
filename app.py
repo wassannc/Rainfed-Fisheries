@@ -188,12 +188,15 @@ elif main_section == "Dashboard":
         st.metric("🐟 Mortality Checked", total_mortality)
         st.metric("🎓 Trailnet Done", total_trailnet)
 
-       if not df_feed.empty:
+       # ---------------- FEED TRACKING ----------------
+        st.subheader("🌾 Feed Tracking")
 
-            grouped = df_feed.groupby(["pd.district", "pd.block"]).agg({
-                "pd.fish_farmer": "count",   # total records
-                "pd.fish_farmer": "nunique"  # unique farmers
-            }).reset_index()
+        if not df_feed.empty:   # ✅ aligned properly
+
+            grouped = df_feed.groupby(["pd.district", "pd.block"]).agg(
+                total_records=("pd.fish_farmer", "count"),
+                unique_farmers=("pd.fish_farmer", "nunique")
+            ).reset_index()
 
             grouped.columns = [
                 "District",
