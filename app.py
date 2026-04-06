@@ -176,11 +176,11 @@ elif main_section == "Dashboard":
 
     if not df_feed.empty:
         feed_group = df_feed.groupby(["pd.district", "pd.block"]).agg({
-            "fingerlings_released": "sum",
-            "feed_available": "sum"
+            "fingerlings.fish_farmer": "count",
+            "pd.fish_farmer": "nunique"
         }).reset_index()
 
-        feed_group.columns = ["District", "Block", "Fingerlings Released", "Feed Available"]
+        feed_group.columns = ["District", "Block", "Fingerlings Released", "Feed data available"]
         st.dataframe(feed_group, use_container_width=True)
 
     # ---------------- HARVESTING ----------------
@@ -188,8 +188,8 @@ elif main_section == "Dashboard":
 
     if not df_harvest.empty:
         harvest_group = df_harvest.groupby(["pd.district", "pd.block"]).agg({
-            "fingerlings_released": "sum",
-            "harvested": "sum"
+            "fingerlings.fish_farmer": "count",
+            "pd,fish_farmer": "nunique"
         }).reset_index()
 
         harvest_group.columns = ["District", "Block", "Fingerlings Released", "Harvested"]
