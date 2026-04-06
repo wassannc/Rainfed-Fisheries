@@ -175,7 +175,7 @@ elif main_section == "Dashboard":
     st.subheader("🌾 Feed Tracking")
 
     if not df_feed.empty:
-        feed_group = df_feed.groupby(["district", "block"]).agg({
+        feed_group = df_feed.groupby(["pd.district", "pd.block"]).agg({
             "fingerlings_released": "sum",
             "feed_available": "sum"
         }).reset_index()
@@ -187,7 +187,7 @@ elif main_section == "Dashboard":
     st.subheader("🎣 Harvesting")
 
     if not df_harvest.empty:
-        harvest_group = df_harvest.groupby(["district", "block"]).agg({
+        harvest_group = df_harvest.groupby(["pd.district", "pd.block"]).agg({
             "fingerlings_released": "sum",
             "harvested": "sum"
         }).reset_index()
