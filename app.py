@@ -155,14 +155,31 @@ elif main_section == "Dashboard":
     col1, col2 = st.columns([2, 1])
 
     with col1:
-        if not df_release.empty:
-            grouped = df_release.groupby(["pd.district", "pd.block"]).agg({
-                "fingerlings.fish_farmer": "count",
-                "fingerlings.ext_pond": "sum"
-            }).reset_index()
+    if not df_release.empty:
 
-            grouped.columns = ["District", "Block", "No. of ponds released fingerlings", "Extent (Acres)"]
-            st.dataframe(grouped, use_container_width=True)
+        # 🔥 Convert to numeric (IMPORTANT)
+        df_release["fingerlings.ext_pond"] = pd.to_numeric(
+            df_release["fingerlings.ext_pond"],
+            errors="coerce"
+        )
+
+        grouped = df_release.groupby(["pd.district", "pd.block"]).agg({
+            "fingerlings.fish_farmer": "count",
+            "fingerlings.ext_pond": "sum"
+        }).reset_index()
+
+        # Rename columns
+        grouped.columns = [
+            "District",
+            "Block",
+            "No. of ponds released fingerlings",
+            "Extent (Acres)"
+        ]
+
+        # Optional: round values
+        grouped["Extent (Acres)"] = grouped["Extent (Acres)"].round(2)
+
+        st.dataframe(grouped, use_container_width=True)
 
     with col2:
         total_mortality = df_mort.shape[0] if not df_mort.empty else 0
