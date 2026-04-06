@@ -8,7 +8,7 @@ st.sidebar.title("Menu")
 
 main_section = st.sidebar.radio(
     "Select Section",
-    ["MIS-Status", "MIS-Reports", "Fisheries Dashboard"]
+    ["MIS-Status", "MIS-Reports", "Dashboard"]
 )
 
 # 👇 Form selection only when Reports selected
