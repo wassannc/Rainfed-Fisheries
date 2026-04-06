@@ -143,11 +143,11 @@ elif main_section == "Dashboard":
     st.title("🐟 Dashboard")
 
     # Load your forms (example names – update as per your config)
-    df_release = load_odk_data(FORMS["Fingerlings Release"]["form_id"])
-    df_feed = load_odk_data(FORMS["Feed Tracking"]["form_id"])
-    df_harvest = load_odk_data(FORMS["Harvesting"]["form_id"])
-    df_training = load_odk_data(FORMS["Trainings"]["form_id"])
-    df_mortality = load_odk_data(FORMS["Mortality"]["form_id"])
+    df_release = load_odk_data(FORMS["1. Fingerlings Release"]["form_id"])
+    df_feed = load_odk_data(FORMS["2. Mortality Check"]["form_id"])
+    df_harvest = load_odk_data(FORMS["3. Feeding"]["form_id"])
+    df_training = load_odk_data(FORMS["4. Trailnet"]["form_id"])
+    df_mortality = load_odk_data(FORMS["5. Harvesting"]["form_id"])
 
     # ---------------- COVERAGE ----------------
     st.subheader("📍 Coverage")
