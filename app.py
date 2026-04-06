@@ -186,7 +186,7 @@ elif main_section == "Dashboard":
         total_training = df_trail.shape[0] if not df_trail.empty else 0
 
         st.metric("🐟 Mortality Checked", total_mortality)
-        st.metric("🎓 Trainings Done", total_training)
+        st.metric("🎓 Trailnet Done", total_trailnet)
 
     # ---------------- FEED TRACKING ----------------
     st.subheader("🌾 Feed Tracking")
