@@ -156,7 +156,7 @@ elif main_section == "Dashboard":
 
     with col1:
         if not df_release.empty:
-            grouped = df_release.groupby(["district", "block"]).agg({
+            grouped = df_release.groupby(["pd.district", "pd.block"]).agg({
                 "fingerlings_released": "sum",
                 "extent_acres": "sum"
             }).reset_index()
