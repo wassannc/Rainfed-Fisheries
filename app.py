@@ -157,11 +157,11 @@ elif main_section == "Dashboard":
     with col1:
         if not df_release.empty:
             grouped = df_release.groupby(["pd.district", "pd.block"]).agg({
-                "fingerlings_released": "sum",
-                "extent_acres": "sum"
+                "fingerlings.fish_farmer": "count",
+                "fingerlings.ext_pond": "sum"
             }).reset_index()
 
-            grouped.columns = ["District", "Block", "Fingerlings Released", "Extent (Acres)"]
+            grouped.columns = ["District", "Block", "No. of ponds released fingerlings", "Extent (Acres)"]
             st.dataframe(grouped, use_container_width=True)
 
     with col2:
