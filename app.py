@@ -239,7 +239,7 @@ elif main_section == "Dashboard":
         st.dataframe(final_df, use_container_width=True)
 
     # ---------------- HARVESTING ----------------
-    st.subheader("🎣 Harvesting")
+    st.subheader("🐟 Harvesting")
 
     if not df_harvest.empty:
 
