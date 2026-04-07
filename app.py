@@ -156,6 +156,11 @@ elif main_section == "Dashboard":
     with col1:
         # Coverage table
         if not df_release.empty:
+             # 🔥 FIX: convert to numeric
+            df_release["fingerlings.ext_pond"] = pd.to_numeric(
+                df_release["fingerlings.ext_pond"],
+                errors="coerce"
+            )
             grouped = df_release.groupby(["pd.district", "pd.block"]).agg(
                 ponds=("fingerlings.fish_farmer", "count"),
                 extent=("fingerlings.ext_pond", "sum")
