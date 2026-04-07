@@ -142,79 +142,51 @@ elif main_section == "Dashboard":
 
     st.title("🐟 Dashboard")
 
-    # Load your forms (example names – update as per your config)
-    df_release = load_odk_data(FORMS["1. Fingerlings Release"]["form_id"])
-    df_mort = load_odk_data(FORMS["2. Mortality Check"]["form_id"])
-    df_feed = load_odk_data(FORMS["3. Feeding"]["form_id"])
-    df_trail = load_odk_data(FORMS["4. Trailnet"]["form_id"])
-    df_harvest = load_odk_data(FORMS["5. Harvesting"]["form_id"])
-
     # ---------------- COVERAGE ----------------
     st.subheader("📍 Coverage")
 
-    col1, col2 = st.columns([2, 1])
+    col1, col2 = st.columns([3, 1])
 
     with col1:
+        # Coverage table
         if not df_release.empty:
+            grouped = df_release.groupby(["pd.district", "pd.block"]).agg(
+                ponds=("fingerlings.fish_farmer", "count"),
+                extent=("fingerlings.ext_pond", "sum")
+            ).reset_index()
 
-            # 🔥 Convert to numeric (IMPORTANT)
-            df_release["fingerlings.ext_pond"] = pd.to_numeric(
-                df_release["fingerlings.ext_pond"],
-                errors="coerce"
-            )
-
-            grouped = df_release.groupby(["pd.district", "pd.block"]).agg({
-                "fingerlings.fish_farmer": "count",
-                "fingerlings.ext_pond": "sum"
-            }).reset_index()
-
-            # Rename columns
-            grouped.columns = [
-                "District",
-                "Block",
-                "No. of ponds released fingerlings",
-                "Extent (Acres)"
-            ]
-
-            # Optional: round values
-            grouped["Extent (Acres)"] = grouped["Extent (Acres)"].round(2)
-
+            grouped.columns = ["District", "Block", "No. of ponds", "Extent (Acres)"]
             st.dataframe(grouped, use_container_width=True)
 
     with col2:
-        total_mortality = df_mort.shape[0] if not df_mort.empty else 0
-        total_trailnet = df_trail.shape[0] if not df_trail.empty else 0
+        st.metric("🐟 Mortality Checked", len(df_mort))
+        st.metric("🎓 Trailnet Done", len(df_trail))
 
-        st.metric("🐟 Mortality Checked", total_mortality)
-        st.metric("🎓 Trailnet Done", total_trailnet)
+    # 👉 VERY IMPORTANT: BREAK COLUMN FLOW
+    st.divider()
 
-       # ---------------- FEED TRACKING ----------------
-        st.subheader("🌾 Feed Tracking")
+    # ---------------- FEED TRACKING ----------------
+    st.subheader("🌾 Feed Tracking")
 
-        if not df_feed.empty:   # ✅ aligned properly
+    if not df_feed.empty:
+        feed_group = df_feed.groupby(["pd.district", "pd.block"]).agg(
+            total_records=("pd.fish_farmer", "count"),
+            farmers=("pd.fish_farmer", "nunique")
+        ).reset_index()
 
-            grouped = df_feed.groupby(["pd.district", "pd.block"]).agg(
-                total_records=("pd.fish_farmer", "count"),
-                unique_farmers=("pd.fish_farmer", "nunique")
-            ).reset_index()
+        feed_group.columns = ["District", "Block", "Total Feed Records", "Farmers Covered"]
 
-            grouped.columns = [
-                "District",
-                "Block",
-                "Total Feed Records",
-                "Farmers Covered"
-            ]
-
-            st.dataframe(grouped, use_container_width=True)
+        st.dataframe(feed_group, use_container_width=True)
 
     # ---------------- HARVESTING ----------------
     st.subheader("🎣 Harvesting")
 
     if not df_harvest.empty:
-        harvest_group = df_harvest.groupby(["pd.district", "pd.block"]).agg({
-            "fingerlings.fish_farmer": "count",
-            "pd,fish_farmer": "nunique"
-        }).reset_index()
+        harvest_group = df_harvest.groupby(["pd.district", "pd.block"]).agg(
+            total=("pd.fish_farmer", "count"),
+            harvested=("pd.fish_farmer", "nunique")
+        ).reset_index()
 
-        harvest_group.columns = ["District", "Block", "Fingerlings Released", "Harvested"]
+        harvest_group.columns = ["District", "Block", "Total Records", "Harvested"]
+
         st.dataframe(harvest_group, use_container_width=True)
