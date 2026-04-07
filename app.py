@@ -176,18 +176,67 @@ elif main_section == "Dashboard":
     # 👉 VERY IMPORTANT: BREAK COLUMN FLOW
     st.divider()
 
-    # ---------------- FEED TRACKING ----------------
     st.subheader("🌾 Feed Tracking")
 
     if not df_feed.empty:
-        feed_group = df_feed.groupby(["pd.district", "pd.block"]).agg(
-            total_records=("pd.fish_farmer", "count"),
-            farmers=("pd.fish_farmer", "nunique")
+
+        district_col = "pd.district"
+        block_col = "pd.block"
+        farmer_col = "pd.fish_farmer"
+
+        # 🔥 Step 1: count feed records per farmer
+        farmer_counts = (
+            df_feed.groupby([district_col, block_col, farmer_col])
+            .size()
+            .reset_index(name="feed_times")
+        )
+
+        # 🔥 Step 2: count frequency (1 time, 2 times, etc.)
+        freq_table = (
+            farmer_counts.groupby([district_col, block_col, "feed_times"])
+            .size()
+            .reset_index(name="farmer_count")
+        )
+
+        # 🔥 Step 3: pivot table
+        pivot = freq_table.pivot_table(
+            index=[district_col, block_col],
+            columns="feed_times",
+            values="farmer_count",
+            fill_value=0
         ).reset_index()
 
-        feed_group.columns = ["District", "Block", "Total Feed Records", "Farmers Covered"]
+        # Rename columns
+        pivot.columns.name = None
+        pivot = pivot.rename(columns={
+            district_col: "District",
+            block_col: "Block"
+        })
 
-        st.dataframe(feed_group, use_container_width=True)
+        # 🔥 Step 4: rename feed columns nicely
+        pivot.columns = [
+            "District", "Block"
+        ] + [f"{int(col)} time" if col == 1 else f"{int(col)} times" for col in pivot.columns[2:]]
+
+        # 🔥 Step 5: Add Total ponds (from release)
+        df_release_group = df_release.groupby([district_col, block_col]).agg(
+            ponds=("fingerlings.fish_farmer", "count")
+        ).reset_index()
+
+        df_release_group = df_release_group.rename(columns={
+            district_col: "District",
+            block_col: "Block"
+        })
+
+        final_df = pivot.merge(df_release_group, on=["District", "Block"], how="left")
+
+        # Move ponds column to front
+        cols = ["District", "Block", "ponds"] + [c for c in final_df.columns if c not in ["District", "Block", "ponds"]]
+        final_df = final_df[cols]
+
+        final_df = final_df.rename(columns={"ponds": "Total ponds released"})
+
+        st.dataframe(final_df, use_container_width=True)
 
     # ---------------- HARVESTING ----------------
     st.subheader("🎣 Harvesting")
