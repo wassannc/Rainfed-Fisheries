@@ -142,6 +142,12 @@ elif main_section == "Dashboard":
 
     st.title("🐟 Dashboard")
 
+    df_release = load_odk_data(FORMS["1. Fingerlings Release"]["form_id"])
+    df_mort = load_odk_data(FORMS["2. Mortality Check"]["form_id"])
+    df_feed = load_odk_data(FORMS["3. Feeding"]["form_id"])
+    df_trail = load_odk_data(FORMS["4. Trailnet"]["form_id"])
+    df_harvest = load_odk_data(FORMS["5. Harvesting"]["form_id"])
+
     # ---------------- COVERAGE ----------------
     st.subheader("📍 Coverage")
 
