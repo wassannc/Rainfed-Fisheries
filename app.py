@@ -242,11 +242,45 @@ elif main_section == "Dashboard":
     st.subheader("🎣 Harvesting")
 
     if not df_harvest.empty:
-        harvest_group = df_harvest.groupby(["pd.district", "pd.block"]).agg(
-            total=("pd.fish_farmer", "count"),
-            harvested=("pd.fish_farmer", "nunique")
+
+        district_col = "pd.district"
+        block_col = "pd.block"
+        farmer_col = "pd.fish_farmer"
+
+        # 🔥 STEP 1: KG column (UPDATE THIS NAME)
+        kg_col = "harvest.kg"   # ⚠️ CHANGE based on your actual column
+
+        if kg_col in df_harvest.columns:
+            df_harvest[kg_col] = pd.to_numeric(df_harvest[kg_col], errors="coerce")
+
+        # 🔥 STEP 2: Harvest aggregation
+        harvest_group = df_harvest.groupby([district_col, block_col]).agg(
+            ponds_harvested=(farmer_col, "nunique"),
+            total_kg=(kg_col, "sum") if kg_col in df_harvest.columns else (farmer_col, "count")
         ).reset_index()
 
-        harvest_group.columns = ["District", "Block", "Total Records", "Harvested"]
+        # 🔥 STEP 3: Release aggregation (ponds released)
+        release_group = df_release.groupby([district_col, block_col]).agg(
+            ponds_released=("fingerlings.fish_farmer", "count")
+        ).reset_index()
 
-        st.dataframe(harvest_group, use_container_width=True)
+        # 🔥 STEP 4: Merge both
+        final = release_group.merge(
+            harvest_group,
+            on=[district_col, block_col],
+            how="left"
+        ).fillna(0)
+
+        # 🔥 STEP 5: Rename columns
+        final.columns = [
+            "District",
+            "Block",
+            "Total ponds released",
+            "Total ponds harvested",
+            "Total KGs harvested"
+        ]
+
+        # Optional formatting
+        final["Total KGs harvested"] = final["Total KGs harvested"].round(2)
+
+        st.dataframe(final, use_container_width=True)
