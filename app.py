@@ -137,15 +137,15 @@ elif page in FORMS:
                 f"{page}_report.csv",
                 "text/csv"
             )
-
-    if st.button("🔄 Refresh Data"):
-        st.cache_data.clear()
-    
+ 
 elif main_section == "Dashboard":
     import pandas as pd
 
     st.title("🐟 Dashboard")
-
+    #Refresh data
+    if st.button("🔄 Refresh Data"):
+        st.cache_data.clear()
+        
     df_release = load_odk_data(FORMS["1. Fingerlings Release"]["form_id"])
     df_mort = load_odk_data(FORMS["2. Mortality Check"]["form_id"])
     df_feed = load_odk_data(FORMS["3. Feeding"]["form_id"])
