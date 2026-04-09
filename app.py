@@ -142,9 +142,11 @@ elif main_section == "Dashboard":
     import pandas as pd
 
     st.title("🐟 Dashboard")
+    
     #Refresh data
     if st.button("🔄 Refresh Data"):
         st.cache_data.clear()
+        st.rerun()
         
     df_release = load_odk_data(FORMS["1. Fingerlings Release"]["form_id"])
     df_mort = load_odk_data(FORMS["2. Mortality Check"]["form_id"])
