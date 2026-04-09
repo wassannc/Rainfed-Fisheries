@@ -137,6 +137,10 @@ elif page in FORMS:
                 f"{page}_report.csv",
                 "text/csv"
             )
+
+    if st.button("🔄 Refresh Data"):
+        st.cache_data.clear()
+    
 elif main_section == "Dashboard":
     import pandas as pd
 
