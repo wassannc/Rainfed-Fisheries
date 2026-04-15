@@ -24,3 +24,20 @@ def load_odk_data(form_id):
 
     df = pd.json_normalize(data["value"])
     return df
+@st.cache_data(ttl=300)
+def load_entities(fisheries_2025_26):
+
+    url = f"{ODK_URL}/v1/projects/{PROJECT_ID}/datasets/{entity_name}/entities"
+
+    response = requests.get(url, auth=(USERNAME, PASSWORD))
+
+    if response.status_code != 200:
+        st.error(f"Entity Error: {response.status_code}")
+        return pd.DataFrame()
+
+    data = response.json()
+
+    # Extract entity data
+    records = [item["data"] for item in data]
+
+    return pd.DataFrame(records)
