@@ -166,9 +166,9 @@ elif main_section == "Dashboard":
                 df_release["fingerlings.ext_pond"],
                 errors="coerce"
             )
-            grouped = df_release.groupby(["pd.district", "pd.block"]).agg(
-                ponds=("fingerlings.fish_farmer", "count"),
-                extent=("fingerlings.ext_pond", "sum")
+            grouped = df_release.groupby(["district", "block"]).agg(
+                ponds=("fid", "count"),                 # count of farmers/ponds
+                extent=("ext_acr", "sum")               # total area
             ).reset_index()
 
             grouped.columns = ["District", "Block", "No. of ponds", "Extent (Acres)"]
