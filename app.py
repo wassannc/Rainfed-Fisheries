@@ -1,7 +1,6 @@
 import streamlit as st
 from config import FORMS
-from utils import load_odk_data
-
+from utils import load_odk_data, load_entities
 st.set_page_config(page_title="Rainfed Fisheries", layout="wide")
 
 st.sidebar.title("Menu")
