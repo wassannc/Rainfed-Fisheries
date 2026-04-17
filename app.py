@@ -174,6 +174,7 @@ elif main_section == "Dashboard":
 
             grouped.columns = ["District", "Block", "No. of ponds", "Extent (Acres)"]
             st.dataframe(grouped, use_container_width=True)
+            grouped = grouped.sort_values(["District", "Block"])
 
     with col2:
         st.metric("🐟 Mortality Checked", len(df_mort))
