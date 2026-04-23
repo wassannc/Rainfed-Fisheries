@@ -215,6 +215,18 @@ elif main_section == "Dashboard":
         summary = farmer_counts["feed_category"].value_counts()
         st.bar_chart(summary)
 
+        # ---------------- TRIGGERS ----------------
+
+        def generate_trigger(row):
+            if row["feed_times"] <= 2:
+                return "🔴 Immediate Action"
+            elif row["feed_times"] <= 4:
+                return "🟠 Needs Improvement"
+            else:
+                return "🟢 Good"
+
+        farmer_counts["action_flag"] = farmer_counts.apply(generate_trigger, axis=1)
+
         # 🔥 Step 2: count frequency (1 time, 2 times, etc.)
         freq_table = (
             farmer_counts.groupby([district_col, block_col, "feed_times"])
