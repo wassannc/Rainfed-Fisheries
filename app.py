@@ -197,19 +197,19 @@ elif main_section == "Dashboard":
             .size()
             .reset_index(name="feed_times")
         )
-    # ---------------- FEED CLASSIFICATION ----------------
+        # ---------------- FEED CLASSIFICATION ----------------
 
-    def classify_feed(months):
-        if months >= 6:
-            return "Regular"
-        elif months >= 3:
-            return "Moderate"
-        elif months >= 1:
-            return "Poor"
-        else:
-            return "No Feed"
+        def classify_feed(months):
+            if months >= 6:
+                return "Regular"
+            elif months >= 3:
+                return "Moderate"
+            elif months >= 1:
+                return "Poor"
+            else:
+                return "No Feed"
 
-    farmer_counts["feed_category"] = farmer_counts["feed_times"].apply(classify_feed)
+        farmer_counts["feed_category"] = farmer_counts["feed_times"].apply(classify_feed)
 
         # 🔥 Step 2: count frequency (1 time, 2 times, etc.)
         freq_table = (
