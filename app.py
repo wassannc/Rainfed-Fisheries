@@ -210,6 +210,10 @@ elif main_section == "Dashboard":
                 return "No Feed"
 
         farmer_counts["feed_category"] = farmer_counts["feed_times"].apply(classify_feed)
+        
+        st.write("### 📊 Feed Category Summary")
+        summary = farmer_counts["feed_category"].value_counts()
+        st.bar_chart(summary)
 
         # 🔥 Step 2: count frequency (1 time, 2 times, etc.)
         freq_table = (
