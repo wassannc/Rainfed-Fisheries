@@ -227,6 +227,14 @@ elif main_section == "Dashboard":
 
         farmer_counts["action_flag"] = farmer_counts.apply(generate_trigger, axis=1)
 
+        st.write("### 🚨 Action Required (Low Feeding Ponds)")
+
+        action_df = farmer_counts[
+            farmer_counts["action_flag"] == "🔴 Immediate Action"
+        ]
+
+        st.dataframe(action_df, use_container_width=True)
+        
         # 🔥 Step 2: count frequency (1 time, 2 times, etc.)
         freq_table = (
             farmer_counts.groupby([district_col, block_col, "feed_times"])
