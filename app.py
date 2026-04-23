@@ -234,6 +234,13 @@ elif main_section == "Dashboard":
         ]
 
         st.dataframe(action_df, use_container_width=True)
+        st.write("### 📍 Block-wise Feed Performance")
+
+        block_perf = farmer_counts.groupby(
+            ["pd.block", "feed_category"]
+        ).size().unstack(fill_value=0)
+
+        st.dataframe(block_perf)
         
         # 🔥 Step 2: count frequency (1 time, 2 times, etc.)
         freq_table = (
