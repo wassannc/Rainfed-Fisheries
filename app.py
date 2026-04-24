@@ -288,7 +288,79 @@ elif main_section == "Dashboard":
         final_df = final_df.rename(columns={"ponds": "Total ponds released"})
 
         st.dataframe(final_df, use_container_width=True)
+        
+        # =========================================================
+        # 🔥 ADVANCED FEED + YIELD ANALYSIS (ACTION SYSTEM)
+        # =========================================================
 
+        st.divider()
+        st.subheader("🧠 Feed vs Yield Intelligence")
+
+        # ---------------- FEED SUMMARY PER POND ----------------
+        feed_summary = df_feed.groupby("pd.fish_farmer").size().reset_index(name="feed_times")
+
+        # ---------------- HARVEST SUMMARY ----------------
+        kg_col = "harvest.fish_sold_kgs"
+
+        if kg_col in df_harvest.columns:
+            df_harvest[kg_col] = pd.to_numeric(df_harvest[kg_col], errors="coerce")
+
+        harvest_summary = df_harvest.groupby("pd.fish_farmer").agg(
+            total_kg=(kg_col, "sum")
+        ).reset_index()
+
+        # ---------------- MERGE ----------------
+        pond_df = feed_summary.merge(
+            harvest_summary,
+            on="pd.fish_farmer",
+            how="left"
+        ).fillna(0)
+
+        # ---------------- FEED CLASSIFICATION ----------------
+        def classify_feed(months):
+            if months >= 6:
+                return "Regular"
+            elif months >= 3:
+                return "Moderate"
+            elif months >= 1:
+                return "Poor"
+            else:
+                return "No Feed"
+
+        pond_df["feed_category"] = pond_df["feed_times"].apply(classify_feed)
+
+        # ---------------- YIELD COMPARISON ----------------
+        st.write("### 📊 Yield vs Feed")
+
+        yield_summary = pond_df.groupby("feed_category")["total_kg"].mean()
+        st.bar_chart(yield_summary)
+
+        # ---------------- SMART TRIGGERS ----------------
+        def advanced_trigger(row):
+            if row["feed_times"] <= 2 and row["total_kg"] < 50:
+                return "🔴 Critical (Low feed + Low yield)"
+            elif row["feed_times"] >= 5 and row["total_kg"] < 50:
+                return "⚠️ Technical Issue (Feed OK, Yield Low)"
+            elif row["feed_times"] <= 2:
+                return "🟠 Low Feeding"
+            else:
+                return "🟢 Normal"
+
+        pond_df["action_flag"] = pond_df.apply(advanced_trigger, axis=1)
+
+        # ---------------- ACTION TABLE ----------------
+        st.write("### 🚨 Action Required")
+
+        action_df = pond_df[pond_df["action_flag"] != "🟢 Normal"]
+
+        st.dataframe(action_df, use_container_width=True)
+
+        # ---------------- ISSUE DISTRIBUTION ----------------
+        st.write("### 📍 Issue Distribution")
+
+        issue_counts = pond_df["action_flag"].value_counts()
+        st.bar_chart(issue_counts)
+    
     # ---------------- HARVESTING ----------------
     st.subheader("🐟 Harvesting")
 
