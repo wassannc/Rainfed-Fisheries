@@ -314,7 +314,15 @@ elif main_section == "Dashboard":
             harvest_summary,
             on="pd.fish_farmer",
             how="left"
-        ).fillna(0)
+        )
+
+        # Mark missing yield separately
+        pond_df["yield_status"] = pond_df["total_kg"].apply(
+            lambda x: "No Data" if pd.isna(x) or x == 0 else "Available"
+        )
+ 
+        # Keep total_kg as 0 only for calculations if needed
+        pond_df["total_kg"] = pond_df["total_kg"].fillna(0)
 
         # ---------------- FEED CLASSIFICATION ----------------
         def classify_feed(months):
@@ -329,37 +337,50 @@ elif main_section == "Dashboard":
 
         pond_df["feed_category"] = pond_df["feed_times"].apply(classify_feed)
 
-        # ---------------- YIELD COMPARISON ----------------
-        st.write("### 📊 Yield vs Feed")
+        st.write("### 📊 Yield vs Feed (Only Available Data)")
 
-        yield_summary = pond_df.groupby("feed_category")["total_kg"].mean()
+        yield_df = pond_df[pond_df["yield_status"] == "Available"]
+
+        yield_summary = yield_df.groupby("feed_category")["total_kg"].mean()
+
         st.bar_chart(yield_summary)
 
         # ---------------- SMART TRIGGERS ----------------
         def advanced_trigger(row):
+            # 🚫 No data case
+            if row["yield_status"] == "No Data":
+                return "⚪ No Harvest Data"
+
+            # 🔴 Critical
             if row["feed_times"] <= 2 and row["total_kg"] < 50:
                 return "🔴 Critical (Low feed + Low yield)"
+
+            # ⚠️ Technical issue
             elif row["feed_times"] >= 5 and row["total_kg"] < 50:
-                return "⚠️ Technical Issue (Feed OK, Yield Low)"
+                return "⚠️ Technical Issue"
+
+            # 🟠 Feeding issue
             elif row["feed_times"] <= 2:
                 return "🟠 Low Feeding"
+
+            # 🟢 Normal
             else:
                 return "🟢 Normal"
-
-        pond_df["action_flag"] = pond_df.apply(advanced_trigger, axis=1)
 
         # ---------------- ACTION TABLE ----------------
         st.write("### 🚨 Action Required")
 
-        action_df = pond_df[pond_df["action_flag"] != "🟢 Normal"]
+        action_df = pond_df[
+            ~pond_df["action_flag"].isin(["🟢 Normal", "⚪ No Harvest Data"])
+        ]
 
         st.dataframe(action_df, use_container_width=True)
 
-        # ---------------- ISSUE DISTRIBUTION ----------------
-        st.write("### 📍 Issue Distribution")
+        st.write("### ⚪ Ponds with No Harvest Data")
 
-        issue_counts = pond_df["action_flag"].value_counts()
-        st.bar_chart(issue_counts)
+        no_data_df = pond_df[pond_df["yield_status"] == "No Data"]
+
+        st.dataframe(no_data_df, use_container_width=True)
     
     # ---------------- HARVESTING ----------------
     st.subheader("🐟 Harvesting")
