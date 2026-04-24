@@ -366,7 +366,8 @@ elif main_section == "Dashboard":
             # 🟢 Normal
             else:
                 return "🟢 Normal"
-
+                
+        pond_df["action_flag"] = pond_df.apply(advanced_trigger, axis=1)
         # ---------------- ACTION TABLE ----------------
         st.write("### 🚨 Action Required")
 
