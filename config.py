@@ -1,6 +1,6 @@
 FORMS = {
     "1. Fingerlings Release": {
-        "form_id": "1.Fingerlings Release",
+        "form_id": "1. Fingerlings Release",
         "columns": ["pd-date","pd-district","pd-block","pd-panchayat","pd-village","fingerlings-fish_farmer","fingerlings-mobile","fingerlings-ext_pond","fingerlings-No_fingerlings_released","fingerlings-date_fingerlings_released"],
         "district_col": "pd-district"
     },
