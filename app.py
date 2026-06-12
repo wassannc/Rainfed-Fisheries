@@ -187,9 +187,9 @@ elif main_section == "Dashboard":
 
     if not df_feed.empty:
 
-        district_col = "pd.district"
-        block_col = "pd.block"
-        farmer_col = "pd.fish_farmer"
+        district_col = "pd-district"
+        block_col = "pd-block"
+        farmer_col = "pd-fish_farmer"
 
         # 🔥 Step 1: count feed records per farmer
         farmer_counts = (
