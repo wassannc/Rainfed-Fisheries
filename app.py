@@ -393,7 +393,7 @@ elif main_section == "Dashboard":
         farmer_col = "pd.fish_farmer"
 
         # 🔥 STEP 1: KG column (UPDATE THIS NAME)
-        kg_col = "harvest.fish_sold_kgs"
+        kg_col = "harvest-fish_sold_kgs"
 
         if kg_col in df_harvest.columns:
             df_harvest[kg_col] = pd.to_numeric(df_harvest[kg_col], errors="coerce")
@@ -406,7 +406,7 @@ elif main_section == "Dashboard":
 
         # 🔥 STEP 3: Release aggregation (ponds released)
         release_group = df_release.groupby([district_col, block_col]).agg(
-            ponds_released=("fingerlings.fish_farmer", "count")
+            ponds_released=("fingerlings-fish_farmer", "count")
         ).reset_index()
 
         # 🔥 STEP 4: Merge both
