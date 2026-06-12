@@ -271,7 +271,7 @@ elif main_section == "Dashboard":
 
         # 🔥 Step 5: Add Total ponds (from release)
         df_release_group = df_release.groupby([district_col, block_col]).agg(
-            ponds=("fingerlings.fish_farmer", "count")
+            ponds=("fingerlings-fish_farmer", "count")
         ).reset_index()
 
         df_release_group = df_release_group.rename(columns={
@@ -297,22 +297,22 @@ elif main_section == "Dashboard":
         st.subheader("🧠 Feed vs Yield Intelligence")
 
         # ---------------- FEED SUMMARY PER POND ----------------
-        feed_summary = df_feed.groupby("pd.fish_farmer").size().reset_index(name="feed_times")
+        feed_summary = df_feed.groupby("pd-fish_farmer").size().reset_index(name="feed_times")
 
         # ---------------- HARVEST SUMMARY ----------------
-        kg_col = "harvest.fish_sold_kgs"
+        kg_col = "harvest-fish_sold_kgs"
 
         if kg_col in df_harvest.columns:
             df_harvest[kg_col] = pd.to_numeric(df_harvest[kg_col], errors="coerce")
 
-        harvest_summary = df_harvest.groupby("pd.fish_farmer").agg(
+        harvest_summary = df_harvest.groupby("pd-fish_farmer").agg(
             total_kg=(kg_col, "sum")
         ).reset_index()
 
         # ---------------- MERGE ----------------
         pond_df = feed_summary.merge(
             harvest_summary,
-            on="pd.fish_farmer",
+            on="pd-fish_farmer",
             how="left"
         )
 
