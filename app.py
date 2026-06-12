@@ -163,13 +163,13 @@ elif main_section == "Dashboard":
         if not df_release.empty:
              # 🔥 FIX: convert to numeric
             df_release["fingerlings.ext_pond"] = pd.to_numeric(
-                df_release["fingerlings.ext_pond"],
+                df_release["fingerlings-ext_pond"],
                 errors="coerce"
             )
             
-            grouped = df_release.groupby(["pd.district", "pd.block"]).agg(
-                ponds=("fingerlings.fish_farmer", "nunique"),
-                extent=("fingerlings.ext_pond", "sum")
+            grouped = df_release.groupby(["pd-district", "pd-block"]).agg(
+                ponds=("fingerlings-fish_farmer", "nunique"),
+                extent=("fingerlings-ext_pond", "sum")
             ).reset_index()
 
             grouped.columns = ["District", "Block", "No. of ponds", "Extent (Acres)"]
