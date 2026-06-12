@@ -388,9 +388,9 @@ elif main_section == "Dashboard":
 
     if not df_harvest.empty:
 
-        district_col = "pd.district"
-        block_col = "pd.block"
-        farmer_col = "pd.fish_farmer"
+        district_col = "pd-district"
+        block_col = "pd-block"
+        farmer_col = "pd-fish_farmer"
 
         # 🔥 STEP 1: KG column (UPDATE THIS NAME)
         kg_col = "harvest-fish_sold_kgs"
