@@ -6,8 +6,8 @@ FORMS = {
     },
     "2. Mortality Check": {
         "form_id": "2. Mortality Check",
-        "columns": ["pd.date","pd.district","pd.block","pd.panchayat","pd.village","mortality.fish_farmer","mortality.species_dead","mortality.Catla_qty","mortality.Ragandi_qty","mortality.Mosu_qty","mortality.Bangaru_papa_qty","mortality.Grasscarp_qty","data_submitted_by"],
-        "district_col": "pd.district"
+        "columns": ["pd-date","pd-district","pd-block","pd-panchayat","pd-village","mortality-fish_farmer","mortality-species_dead","mortality-Catla_qty","mortality-Ragandi_qty","mortality-Mosu_qty","mortality-Bangaru_papa_qty","mortality-Grasscarp_qty","data_submitted_by"],
+        "district_col": "pd-district"
     },
     "3. Feeding": {
         "form_id": "3. Feeding",
