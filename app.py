@@ -237,7 +237,7 @@ elif main_section == "Dashboard":
         st.write("### 📍 Block-wise Feed Performance")
 
         block_perf = farmer_counts.groupby(
-            ["pd.block", "feed_category"]
+            ["pd-block", "feed_category"]
         ).size().unstack(fill_value=0)
 
         st.dataframe(block_perf)
