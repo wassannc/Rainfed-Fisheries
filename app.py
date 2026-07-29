@@ -1,6 +1,8 @@
 import streamlit as st
 from config import FORMS
 from utils import load_odk_data, load_entities
+import pandas as pd
+import calendar
 st.set_page_config(page_title="Rainfed Fisheries", layout="wide")
 
 st.sidebar.title("Menu")
@@ -15,6 +17,36 @@ if main_section == "MIS-Reports":
     page = st.sidebar.radio("Select Form", list(FORMS.keys()))
 else:
     page = main_section
+
+# ---------------- COMMON FILTERS ----------------
+all_districts=set()
+for _,config in FORMS.items():
+    try:
+        _df=load_odk_data(config["form_id"])
+        dc=config.get("district_col")
+        if dc and dc in _df.columns:
+            all_districts.update(_df[dc].dropna().unique())
+    except:
+        pass
+all_districts=sorted(all_districts)
+st.sidebar.markdown("### Filters")
+selected_district=st.sidebar.selectbox("District",["All"]+list(all_districts),key="district_filter")
+months=["All"]+[calendar.month_name[i] for i in range(1,13)]
+selected_month=st.sidebar.selectbox("Month",months,key="month_filter")
+
+def apply_filters(df,district_col=None):
+    if df is None or df.empty:
+        return df
+    if selected_district!="All" and district_col and district_col in df.columns:
+        df=df[df[district_col]==selected_district]
+    date_col=next((c for c in ["__system.submissionDate","meta.submissionDate"] if c in df.columns),None)
+    if selected_month!="All" and date_col:
+        df=df.copy()
+        df[date_col]=pd.to_datetime(df[date_col],errors="coerce")
+        mn=list(calendar.month_name).index(selected_month)
+        df=df[df[date_col].dt.month==mn]
+    return df
+
     
 # ---------------- MIS STATUS ----------------
 if page == "MIS-Status":
