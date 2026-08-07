@@ -30,7 +30,7 @@ for _,config in FORMS.items():
         pass
 all_districts=sorted(all_districts)
 st.sidebar.markdown("### Filters")
-selected_districts = st.sidebar.multiselect("Districtoptions=all_districts,default=all_districts,key="district_filter")
+selected_districts = st.sidebar.multiselect("District",options=all_districts,default=all_districts,key="district_filter")
 months=["All"]+[calendar.month_name[i] for i in range(1,13)]
 selected_month=st.sidebar.selectbox("Month",months,key="month_filter")
 
