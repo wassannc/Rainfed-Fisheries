@@ -245,6 +245,8 @@ elif main_section == "Dashboard":
         
         st.write("### 📊 Feed Category Summary")
         summary = farmer_counts["feed_category"].value_counts()
+        st.write(summary)
+        st.write(type(summary))
         st.bar_chart(summary)
 
         # ---------------- TRIGGERS ----------------
