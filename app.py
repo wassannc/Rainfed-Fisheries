@@ -55,30 +55,6 @@ if page == "MIS-Status":
 
     st.title("📊 Rainfed Fisheries")
 
-    # ---------------- FILTERS ----------------
-    col1, col2 = st.columns(2)
-
-    with col1:
-        all_districts = set()
-
-        for form_name, config in FORMS.items():
-            df_temp = load_odk_data(config["form_id"])
-            col = config.get("district_col")   # 🔥 changed
-
-            if col and col in df_temp.columns:
-                all_districts.update(df_temp[col].dropna().unique())
-
-        all_districts = sorted(all_districts)
-
-        selected_district = st.selectbox(
-            "Select District",
-            ["All"] + list(all_districts)
-        )
-
-    with col2:
-        months = ["All"] + [calendar.month_name[i] for i in range(1, 13)]
-        selected_month = st.selectbox("Select Month", months)
-
     # ---------------- DATA DISPLAY ----------------
     forms_list = list(FORMS.items())
     cols_per_row = 2
@@ -92,29 +68,10 @@ if page == "MIS-Status":
 
             form_name, config = forms_list[i + j]
             df = load_odk_data(config["form_id"])
+            district_col = config.get("district_col")
+            df = apply_filters(df, district_col)
 
             district_col = config.get("district_col")  # 🔥 changed
-
-            # -------- APPLY FILTERS --------
-
-            # District filter
-            if selected_district != "All" and district_col in df.columns:
-                df = df[df[district_col] == selected_district]
-
-            # Month filter
-            date_cols = ["__system.submissionDate", "meta.submissionDate"]
-            date_col = None
-
-            for col in date_cols:
-                if col in df.columns:
-                    date_col = col
-                    break
-
-            if selected_month != "All" and date_col:
-                df[date_col] = pd.to_datetime(df[date_col], errors="coerce")
-                month_num = list(calendar.month_name).index(selected_month)
-                df = df[df[date_col].dt.month == month_num]
-
             # -------- UI --------
             with cols[j]:
                 st.markdown(f"#### 📦 {form_name}")
