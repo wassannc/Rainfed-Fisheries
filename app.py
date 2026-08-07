@@ -47,11 +47,14 @@ def apply_filters(df,district_col=None):
         df = df[df[district_col].isin(selected_districts)]
     date_col = "SubmissionDate" if "SubmissionDate" in df.columns else None
         
-    if selected_month!="All" and date_col:
+    if selected_months and date_col:
         df=df.copy()
         df[date_col]=pd.to_datetime(df[date_col],errors="coerce")
-        mn=list(calendar.month_name).index(selected_month)
-        df=df[df[date_col].dt.month==mn]
+        month_numbers = [
+            list(calendar.month_name).index(month)
+            for month in selected_months
+        ]
+        df = df[df[date_col].dt.month.isin(month_numbers)]
     return df
 
     
