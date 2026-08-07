@@ -37,6 +37,8 @@ selected_month=st.sidebar.selectbox("Month",months,key="month_filter")
 def apply_filters(df,district_col=None):
     if df is None or df.empty:
         return df
+    st.write(df.columns.tolist())
+    
     if selected_district!="All" and district_col and district_col in df.columns:
         df=df[df[district_col]==selected_district]
     date_col=next((c for c in ["__system.submissionDate","meta.submissionDate"] if c in df.columns),None)
