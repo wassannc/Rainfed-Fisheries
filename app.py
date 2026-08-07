@@ -106,6 +106,8 @@ elif page in FORMS:
 
     config = FORMS[page]
     df = load_odk_data(config["form_id"])
+    district_col = config.get("district_col")
+    df = apply_filters(df, district_col)
 
     if df.empty:
         st.warning("No data found")
