@@ -30,7 +30,7 @@ for _,config in FORMS.items():
         pass
 all_districts=sorted(all_districts)
 st.sidebar.markdown("### Filters")
-selected_district=st.sidebar.selectbox("District",["All"]+list(all_districts),key="district_filter")
+selected_districts = st.sidebar.multiselect("Districtoptions=all_districts,default=all_districts,key="district_filter")
 months=["All"]+[calendar.month_name[i] for i in range(1,13)]
 selected_month=st.sidebar.selectbox("Month",months,key="month_filter")
 
@@ -38,8 +38,8 @@ def apply_filters(df,district_col=None):
     if df is None or df.empty:
         return df
     
-    if selected_district!="All" and district_col and district_col in df.columns:
-        df=df[df[district_col]==selected_district]
+    if district_col and district_col in df.columns:
+        df = df[df[district_col].isin(selected_districts)]
     date_col = "SubmissionDate" if "SubmissionDate" in df.columns else None
         
     if selected_month!="All" and date_col:
