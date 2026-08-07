@@ -244,10 +244,22 @@ elif main_section == "Dashboard":
         farmer_counts["feed_category"] = farmer_counts["feed_times"].apply(classify_feed)
         
         st.write("### 📊 Feed Category Summary")
-        summary = farmer_counts["feed_category"].value_counts()
-        st.write(summary)
-        st.write(type(summary))
-        st.bar_chart(summary)
+
+        summary = (
+            farmer_counts["feed_category"]
+            .value_counts()
+            .reset_index()
+        )
+
+        summary.columns = ["Feed Category", "Count"]
+
+        st.dataframe(summary, use_container_width=True)
+
+        st.bar_chart(
+            summary,
+            x="Feed Category",
+            y="Count"
+        )
 
         # ---------------- TRIGGERS ----------------
 
