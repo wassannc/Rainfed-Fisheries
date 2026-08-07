@@ -185,6 +185,13 @@ elif main_section == "Dashboard":
     df_trail = load_odk_data(FORMS["4. Trailnet"]["form_id"])
     df_harvest = load_odk_data(FORMS["5. Harvesting"]["form_id"])
 
+    # Apply common filters
+    df_release = apply_filters(df_release, "pd-district")
+    df_mort = apply_filters(df_mort, "pd-district")
+    df_feed = apply_filters(df_feed, "pd-district")
+    df_trail = apply_filters(df_trail, "pd-district")
+    df_harvest = apply_filters(df_harvest, "pd-district")
+
     # ---------------- COVERAGE ----------------
     st.subheader("📍 Coverage")
 
