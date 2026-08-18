@@ -68,6 +68,13 @@ if page == "MIS-Status":
     # ---------------- DATA DISPLAY ----------------
     forms_list = list(FORMS.items())
     cols_per_row = 2
+    FORM_ICONS = {
+        "1. Fingerlings Release": "icons/fingerling.png",
+        "2. Mortality Check": "icons/mortality.png",
+        "3. Feeding": "icons/feed.png",
+        "4. Trailnet": "icons/trail.png",
+        "5. Harvesting": "icons/harvest.png",
+    }
 
     for i in range(0, len(forms_list), cols_per_row):
         cols = st.columns(cols_per_row)
@@ -84,52 +91,44 @@ if page == "MIS-Status":
             district_col = config.get("district_col")  # 🔥 changed
             
             # -------- UI --------
-            FORM_ICONS = {
-                "1. Fingerlings Release": "icons/fingerling.png",
-                "2. Mortality Check": "icons/mortality.png",
-                "3. Feeding": "icons/feed.png",
-                "4. Trailnet": "icons/trail.png",
-                "5. Harvesting": "icons/harvest.png",
-            }
-            for j, form_name in enumerate(...):
-                with cols[j]:
-                    icon = FORM_ICONS.get(form_name)
-                    if icon:
-                        st.markdown(
-                            f"""
-                            <div style="
-                                display:flex;
-                                align-items:center;
-                                gap:8px;
-                                margin-bottom:8px;
-                            ">
-                                <img src="{icon}" width="32" height="32">
-                                <h4 style="margin:0;">{form_name}</h4>
-                            </div>
-                            """,
-                            unsafe_allow_html=True
-                        )
-                    else:
-                        st.markdown(f"#### {form_name}")
-                    if df.empty:
-                        st.write("No data")
-                        continue
-                    st.caption(f"Total: {len(df)}")
-                    if district_col and district_col in df.columns:
-                        grouped = (
-                            df.groupby(district_col)
-                            .size()
-                            .reset_index(name="Count")
-                            .sort_values("Count", ascending=False)
-                        )
-                        grouped.columns = ["District", "Count"]
-                        st.dataframe(
-                            grouped,
-                            use_container_width=True,
-                            height=200
-                        )
-                    else:
-                        st.warning(f"{district_col} not found")
+            with cols[j]:
+                icon = FORM_ICONS.get(form_name)
+                if icon:
+                    st.markdown(
+                        f"""
+                        <div style="
+                            display:flex;
+                            align-items:center;
+                            gap:8px;
+                            margin-bottom:8px;
+                        ">
+                            <img src="{icon}" width="32" height="32">
+                            <h4 style="margin:0;">{form_name}</h4>
+                        </div>
+                        """,
+                        unsafe_allow_html=True
+                    )
+                else:
+                    st.markdown(f"#### {form_name}")
+                if df.empty:
+                    st.write("No data")
+                    continue
+                st.caption(f"Total: {len(df)}")
+                if district_col and district_col in df.columns:
+                    grouped = (
+                        df.groupby(district_col)
+                        .size()
+                        .reset_index(name="Count")
+                        .sort_values("Count", ascending=False)
+                    )
+                    grouped.columns = ["District", "Count"]
+                    st.dataframe(
+                        grouped,
+                        use_container_width=True,
+                        height=200
+                    )
+                else:
+                    st.warning(f"{district_col} not found")
                     
 # ---------------- REPORTS ----------------
 elif page in FORMS:
