@@ -3,6 +3,7 @@ from config import FORMS
 from utils import load_odk_data, load_entities
 import pandas as pd
 import calendar
+from pathlib import Path
 st.set_page_config(page_title="Rainfed Fisheries", layout="wide")
 
 st.sidebar.title("Menu")
@@ -60,73 +61,79 @@ def apply_filters(df,district_col=None):
     
 # ---------------- MIS STATUS ----------------
 if page == "MIS-Status":
-    import pandas as pd
-    import calendar
 
     st.title("🐟 Rainfed Fisheries")
 
     # ---------------- DATA DISPLAY ----------------
     forms_list = list(FORMS.items())
     cols_per_row = 2
+
+    BASE_DIR = Path(__file__).parent
+
     FORM_ICONS = {
-        "1. Fingerlings Release": "icons/fingerling.png",
-        "2. Mortality Check": "icons/mortality.png",
-        "3. Feeding": "icons/feed.png",
-        "4. Trailnet": "icons/trail.png",
-        "5. Harvesting": "icons/harvest.png",
+        "1. Fingerlings Release": BASE_DIR / "icons" / "fingerling.png",
+        "2. Mortality Check": BASE_DIR / "icons" / "mortality.png",
+        "3. Feeding": BASE_DIR / "icons" / "feed.png",
+        "4. Trailnet": BASE_DIR / "icons" / "trail.png",
+        "5. Harvesting": BASE_DIR / "icons" / "harvest.png",
     }
 
     for i in range(0, len(forms_list), cols_per_row):
+
         cols = st.columns(cols_per_row)
 
         for j in range(cols_per_row):
+
             if i + j >= len(forms_list):
                 break
 
             form_name, config = forms_list[i + j]
+
             df = load_odk_data(config["form_id"])
+
             district_col = config.get("district_col")
+
             df = apply_filters(df, district_col)
 
-            district_col = config.get("district_col")  # 🔥 changed
-            
             # -------- UI --------
             with cols[j]:
+
+                # -------- FORM TITLE + ICON --------
                 icon = FORM_ICONS.get(form_name)
-                if icon:
-                    st.markdown(
-                        f"""
-                        <div style="
-                            display:flex;
-                            align-items:center;
-                            gap:8px;
-                            margin-bottom:8px;
-                        ">
-                            <img src="{icon}" width="32" height="32">
-                            <h4 style="margin:0;">{form_name}</h4>
-                        </div>
-                        """,
-                        unsafe_allow_html=True
-                    )
-                else:
+
+                title_col1, title_col2 = st.columns([0.12, 0.88])
+
+                with title_col1:
+                    if icon and icon.exists():
+                        st.image(str(icon), width=32)
+
+                with title_col2:
                     st.markdown(f"#### {form_name}")
+
+                # -------- DATA --------
                 if df.empty:
                     st.write("No data")
                     continue
+
                 st.caption(f"Total: {len(df)}")
+
                 if district_col and district_col in df.columns:
+
                     grouped = (
                         df.groupby(district_col)
                         .size()
                         .reset_index(name="Count")
                         .sort_values("Count", ascending=False)
                     )
+
                     grouped.columns = ["District", "Count"]
+
                     st.dataframe(
                         grouped,
                         use_container_width=True,
                         height=200
                     )
+
                 else:
                     st.warning(f"{district_col} not found")
                     
