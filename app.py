@@ -119,7 +119,7 @@ if page == "MIS-Status":
                         grouped = (
                             df.groupby(district_col)
                             .size()
-                            .reset_index(name="Count"
+                            .reset_index(name="Count")
                             .sort_values("Count", ascending=False)
                         )
                         grouped.columns = ["District", "Count"]
