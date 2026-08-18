@@ -110,7 +110,7 @@ if page == "MIS-Status":
 
 # ---------------- REPORTS ----------------
 elif page in FORMS:
-    st.title(f"📥 {page} Report")
+    st.title(f"📥 {page} Data")
 
     config = FORMS[page]
     df = load_odk_data(config["form_id"])
