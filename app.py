@@ -82,7 +82,16 @@ if page == "MIS-Status":
             df = apply_filters(df, district_col)
 
             district_col = config.get("district_col")  # 🔥 changed
+            
             # -------- UI --------
+            for j, form_name in enumerate(...):
+                FORM_ICONS = {
+                    "Fingerlings Release": "icons/fingerling.png"
+                    "Mortality Check": "icons/mortality.png",
+                    "Feeding": "icons/feed.png",
+                    "Trailnet": "icons/trail.png",
+                    "Harvest": "icons/harvest.png",
+                }
             with cols[j]:
                 icon = FORM_ICONS.get(form_name)
                 if icon:
