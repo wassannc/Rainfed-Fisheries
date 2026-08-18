@@ -63,7 +63,7 @@ if page == "MIS-Status":
     import pandas as pd
     import calendar
 
-    st.title("📊 Rainfed Fisheries")
+    st.title("🐟 Rainfed Fisheries")
 
     # ---------------- DATA DISPLAY ----------------
     forms_list = list(FORMS.items())
@@ -141,7 +141,7 @@ elif page in FORMS:
 elif main_section == "Dashboard":
     import pandas as pd
 
-    st.title("🐟 Dashboard")
+    st.title("Dashboard")
     
     #Refresh data
     if st.button("🔄 Refresh Data"):
