@@ -84,30 +84,44 @@ if page == "MIS-Status":
             district_col = config.get("district_col")  # 🔥 changed
             # -------- UI --------
             with cols[j]:
-                st.markdown(f"#### 📦 {form_name}")
-
+                icon = FORM_ICONS.get(form_name)
+                if icon:
+                    st.markdown(
+                        f"""
+                        <div style="
+                            display:flex;
+                            align-items:center;
+                            gap:8px;
+                            margin-bottom:8px;
+                        ">
+                            <img src="{icon}" width="32" height="32">
+                            <h4 style="margin:0;">{form_name}</h4>
+                        </div>
+                        """,
+                        unsafe_allow_html=True
+                    )
+                else:
+                    st.markdown(f"#### {form_name}")
                 if df.empty:
                     st.write("No data")
                     continue
-
                 st.caption(f"Total: {len(df)}")
-
                 if district_col and district_col in df.columns:
                     grouped = (
                         df.groupby(district_col)
                         .size()
-                        .reset_index(name="Count")
+                        .reset_index(name="Count"
                         .sort_values("Count", ascending=False)
                     )
-
                     grouped.columns = ["District", "Count"]
-
-                    st.dataframe(grouped, use_container_width=True, height=200)
-
+                    st.dataframe(
+                        grouped,
+                        use_container_width=True,
+                        height=200
+                    )
                 else:
                     st.warning(f"{district_col} not found")
-
-
+                    
 # ---------------- REPORTS ----------------
 elif page in FORMS:
     st.title(f"📥 {page} Data")
