@@ -85,11 +85,11 @@ if page == "MIS-Status":
             
             # -------- UI --------
             FORM_ICONS = {
-                "Fingerlings Release": "icons/fingerling.png"
-                "Mortality Check": "icons/mortality.png",
-                "Feeding": "icons/feed.png",
-                "Trailnet": "icons/trail.png",
-                "Harvest": "icons/harvest.png",
+                "1. Fingerlings Release": "icons/fingerling.png"
+                "2. Mortality Check": "icons/mortality.png",
+                "3. Feeding": "icons/feed.png",
+                "4. Trailnet": "icons/trail.png",
+                "5. Harvesting": "icons/harvest.png",
             }
             for j, form_name in enumerate(...):
                 with cols[j]:
