@@ -85,7 +85,7 @@ if page == "MIS-Status":
             
             # -------- UI --------
             FORM_ICONS = {
-                "1. Fingerlings Release": "icons/fingerling.png"
+                "1. Fingerlings Release": "icons/fingerling.png",
                 "2. Mortality Check": "icons/mortality.png",
                 "3. Feeding": "icons/feed.png",
                 "4. Trailnet": "icons/trail.png",
