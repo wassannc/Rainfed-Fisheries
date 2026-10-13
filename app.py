@@ -20,16 +20,33 @@ else:
     page = main_section
 
 # ---------------- COMMON FILTERS ----------------
-all_districts=set()
-for _,config in FORMS.items():
+all_districts = set()
+all_years = set()
+
+for _, config in FORMS.items():
     try:
-        _df=load_odk_data(config["form_id"])
-        dc=config.get("district_col")
+        _df = load_odk_data(config["form_id"])
+
+        # Collect districts
+        dc = config.get("district_col")
         if dc and dc in _df.columns:
             all_districts.update(_df[dc].dropna().unique())
-    except:
+
+        # Collect years from submission dates
+        if "SubmissionDate" in _df.columns:
+            dates = pd.to_datetime(
+                _df["SubmissionDate"], errors="coerce"
+            )
+            all_years.update(
+                dates.dropna().dt.year.astype(int).unique()
+            )
+
+    except Exception:
         pass
-all_districts=sorted(all_districts)
+
+all_districts = sorted(all_districts)
+all_years = sorted(all_years)
+
 st.sidebar.markdown("### Filters")
 selected_districts = st.sidebar.multiselect("District",options=all_districts,default=all_districts,key="district_filter")
 months = [calendar.month_name[i] for i in range(1,13)]
