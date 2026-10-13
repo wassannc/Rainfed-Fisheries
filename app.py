@@ -33,9 +33,9 @@ for _, config in FORMS.items():
             all_districts.update(_df[dc].dropna().unique())
 
         # Collect years from submission dates
-        if "SubmissionDate" in _df.columns:
+        if "fingerlings-date_fingerlings_released" in _df.columns:
             dates = pd.to_datetime(
-                _df["SubmissionDate"], errors="coerce"
+                _df["fingerlings-date_fingerlings_released"], errors="coerce"
             )
             all_years.update(
                 dates.dropna().dt.year.astype(int).unique()
@@ -71,8 +71,8 @@ def apply_filters(df,district_col=None):
         df = df[df[district_col].isin(selected_districts)]
     
     date_col = (
-        "SubmissionDate"
-        if "SubmissionDate" in df.columns
+        "fingerlings-date_fingerlings_released"
+        if "fingerlings-date_fingerlings_released" in df.columns
         else None
     )
     
