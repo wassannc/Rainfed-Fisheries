@@ -48,6 +48,12 @@ all_districts = sorted(all_districts)
 all_years = sorted(all_years)
 
 st.sidebar.markdown("### Filters")
+selected_years = st.sidebar.multiselect(
+    "Year",
+    options=all_years,
+    default=all_years,
+    key="year_filter"
+)
 selected_districts = st.sidebar.multiselect("District",options=all_districts,default=all_districts,key="district_filter")
 months = [calendar.month_name[i] for i in range(1,13)]
 selected_months = st.sidebar.multiselect(
@@ -55,13 +61,6 @@ selected_months = st.sidebar.multiselect(
     options=months,
     default=months,
     key="month_filter"
-)
-
-selected_years = st.sidebar.multiselect(
-    "Year",
-    options=all_years,
-    default=all_years,
-    key="year_filter"
 )
 
 def apply_filters(df,district_col=None):
