@@ -57,24 +57,51 @@ selected_months = st.sidebar.multiselect(
     key="month_filter"
 )
 
+selected_years = st.sidebar.multiselect(
+    "Year",
+    options=all_years,
+    default=all_years,
+    key="year_filter"
+)
+
 def apply_filters(df,district_col=None):
     if df is None or df.empty:
         return df
     
     if district_col and district_col in df.columns:
         df = df[df[district_col].isin(selected_districts)]
-    date_col = "SubmissionDate" if "SubmissionDate" in df.columns else None
-        
-    if selected_months and date_col:
-        df=df.copy()
-        df[date_col]=pd.to_datetime(df[date_col],errors="coerce")
-        month_numbers = [
-            list(calendar.month_name).index(month)
-            for month in selected_months
-        ]
-        df = df[df[date_col].dt.month.isin(month_numbers)]
+    
+    date_col = (
+        "SubmissionDate"
+        if "SubmissionDate" in df.columns
+        else None
+    )
+    
+    if date_col:
+        df = df.copy()
+    
+        df[date_col] = pd.to_datetime(
+            df[date_col], errors="coerce"
+        )
+    
+        # Year filter
+        if selected_years:
+            df = df[
+                df[date_col].dt.year.isin(selected_years)
+            ]
+    
+        # Month filter
+        if selected_months:
+            month_numbers = [
+                list(calendar.month_name).index(month)
+                for month in selected_months
+            ]
+    
+            df = df[
+                df[date_col].dt.month.isin(month_numbers)
+            ]
+    
     return df
-
     
 # ---------------- MIS STATUS ----------------
 if page == "MIS-Status":
